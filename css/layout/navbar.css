@@ -25,7 +25,9 @@
 }
 
 .logo img {
-  height: 50px;
+  height: 55px;
+  transform: scale(3.8) translateY(2px);
+  transform-origin: left center;
 }
 
 .logo-text {
