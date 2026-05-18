@@ -1,10 +1,14 @@
-/* NAVBAR */
-.navbar {
+/* NAVBAR — sticky wrapper so position:sticky works through data-include div */
+div[data-include="sections/navbar.html"] {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(20px);
+}
+
+.navbar {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 1px 20px rgba(0, 0, 0, 0.06);
   transition: var(--transition);
 }
