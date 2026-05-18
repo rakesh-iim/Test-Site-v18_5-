@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* 
+  Since this is a hybrid project, we only want Tailwind on the booking page. 
+  We'll wrap it or just rely on the fact that we only include this css in booking.html 
+*/

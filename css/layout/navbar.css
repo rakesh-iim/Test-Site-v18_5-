@@ -101,6 +101,7 @@ div[data-include="sections/navbar.html"] {
   font-size: 14px;
   border-radius: 8px;
   display: block;
+  white-space: nowrap;
 }
 
 .dropdown-menu a:hover {
