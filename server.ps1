@@ -7,7 +7,7 @@ while ($listener.IsListening) {
     $ctx = $listener.GetContext()
     $path = $ctx.Request.Url.LocalPath
     if ($path -eq "/") { $path = "/index.html" }
-    $file = Join-Path "c:\Users\ADMIN\Antigravity" ($path -replace "/","\")
+    $file = Join-Path $PSScriptRoot ($path -replace "/","\")
     
     if (Test-Path $file) {
         $bytes = [System.IO.File]::ReadAllBytes($file)
