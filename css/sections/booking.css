@@ -164,6 +164,7 @@
     green-text-slide-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards,
     green-shine 4s ease-in-out infinite;
   display: inline-block;
+  font-size: 1.15em;
 }
 
 @keyframes green-text-slide-up {

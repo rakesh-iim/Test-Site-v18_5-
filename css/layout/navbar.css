@@ -63,15 +63,34 @@ div[data-include="sections/navbar.html"] {
   font-size: 15px;
   padding: 10px 16px;
   border-radius: 8px;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   gap: 5px;
+  position: relative;
 }
 
-.nav-links a:hover {
+.nav-links a:not(.nav-cta)::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  background-color: var(--primary);
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 2px;
+}
+
+.nav-links a:not(.nav-cta):hover {
   color: var(--primary);
-  background: rgba(91, 165, 133, 0.08);
+  background: transparent;
+  transform: scale(1.05);
+}
+
+.nav-links a:not(.nav-cta):hover::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 .dropdown-menu {
