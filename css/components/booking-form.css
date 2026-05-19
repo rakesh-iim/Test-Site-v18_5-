@@ -1,0 +1,499 @@
+/* ============================================================
+   BOOKING FORM — Premium Component Styles
+   ============================================================ */
+
+/* ── CARD ── */
+.bf-card {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── STEP BAR ── */
+.bf-steps {
+  padding: 24px 32px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.bf-steps-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.bf-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+.bf-step-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  background: #f0f0f0;
+  color: #bbb;
+  border: none;
+}
+.bf-step-num.active,
+.bf-step-num.done {
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(91,165,133,0.3);
+}
+.bf-step-num svg {
+  width: 16px;
+  height: 16px;
+}
+.bf-step-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ccc;
+  transition: color 0.3s;
+}
+.bf-step-label.active {
+  color: #1a1a2e;
+}
+.bf-step-line {
+  flex: 1;
+  height: 1px;
+  margin: 0 12px;
+  background: #e5e5e5;
+  position: relative;
+  top: -10px;
+  overflow: hidden;
+}
+.bf-step-line-fill {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  background: linear-gradient(90deg, #5ba585, #4a8a6f);
+  border-radius: 2px;
+  transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ── FORM BODY ── */
+.bf-body {
+  padding: 28px 32px 20px;
+  min-height: 380px;
+  flex: 1;
+}
+
+/* ── SECTION LABEL ── */
+.bf-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #999;
+  margin-bottom: 14px;
+}
+
+/* ── CITY PILLS ── */
+.bf-pills {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.bf-pill {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e8e8e8;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: #666;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bf-pill:hover {
+  border-color: #ccc;
+  color: #1a1a2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.bf-pill.selected {
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  border-color: #5ba585;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(91,165,133,0.3);
+  transform: translateY(-1px);
+}
+
+/* ── RADIO ROWS ── */
+.bf-radios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.bf-radio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e8e8e8;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: #666;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bf-radio:hover {
+  border-color: #ccc;
+  color: #1a1a2e;
+}
+.bf-radio.selected {
+  border-color: #5ba585;
+  background: rgba(91,165,133,0.04);
+  color: #1a1a2e;
+  font-weight: 600;
+}
+.bf-radio-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #ccc;
+  background: #fff;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  position: relative;
+}
+.bf-radio:hover .bf-radio-dot {
+  border-color: #999;
+}
+.bf-radio.selected .bf-radio-dot {
+  border: 5px solid #5ba585;
+}
+
+/* ── DATE INPUT ── */
+.bf-input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e8e8e8;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a2e;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-sizing: border-box;
+}
+.bf-input::placeholder {
+  color: #bbb;
+}
+.bf-input:focus {
+  border-color: #5ba585;
+  box-shadow: 0 0 0 4px rgba(91,165,133,0.1);
+}
+.bf-input.mb {
+  margin-bottom: 28px;
+}
+
+/* ── TEXTAREA ── */
+.bf-textarea {
+  resize: none;
+}
+
+/* ── TIME CARDS ── */
+.bf-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.bf-time {
+  padding: 16px 12px;
+  border-radius: 12px;
+  border: 1.5px solid #e8e8e8;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  color: #666;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bf-time:hover {
+  border-color: #ccc;
+  color: #1a1a2e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.bf-time.selected {
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  border-color: #5ba585;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(91,165,133,0.3);
+  transform: translateY(-1px);
+}
+
+/* ── FIELD GRID ── */
+.bf-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.bf-field-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+.bf-field-label span {
+  font-weight: 400;
+  color: #ccc;
+}
+
+/* ── SUMMARY STRIP ── */
+.bf-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 12px;
+  color: #999;
+}
+.bf-summary strong {
+  color: #1a1a2e;
+  font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.bf-footer {
+  padding: 20px 32px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #f0f0f0;
+}
+.bf-back {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #999;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.bf-back:hover {
+  border-color: #ccc;
+  color: #1a1a2e;
+}
+.bf-back svg {
+  width: 16px;
+  height: 16px;
+}
+.bf-submit {
+  flex: 1;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.bf-submit.enabled {
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(91,165,133,0.35);
+}
+.bf-submit.enabled:hover {
+  box-shadow: 0 8px 30px rgba(91,165,133,0.4);
+  transform: translateY(-1px);
+}
+.bf-submit.disabled {
+  background: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+  border: 1px solid #eee;
+}
+.bf-submit svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ── SUCCESS SCREEN ── */
+.bf-success {
+  padding: 48px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.bf-success-glow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(91,165,133,0.04);
+  filter: blur(80px);
+  pointer-events: none;
+}
+.bf-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  box-shadow: 0 8px 30px rgba(91,165,133,0.35);
+  position: relative;
+}
+.bf-success-icon svg {
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+.bf-success h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+.bf-success p {
+  font-size: 13px;
+  color: #999;
+  line-height: 1.8;
+  margin-bottom: 28px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.bf-success p strong {
+  color: #1a1a2e;
+  font-weight: 600;
+}
+.bf-success p .green {
+  color: #5ba585;
+  font-weight: 600;
+}
+.bf-success-details {
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #f0f0f0;
+  background: #fafbfa;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.bf-success-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.bf-success-row:last-child {
+  border-bottom: none;
+}
+.bf-success-row .label {
+  color: #999;
+}
+.bf-success-row .value {
+  font-weight: 600;
+  color: #1a1a2e;
+}
+.bf-success-row .value.green {
+  color: #5ba585;
+}
+.bf-success-btn {
+  width: 100%;
+  height: 52px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(135deg, #5ba585, #4a8a6f);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: 0 4px 20px rgba(91,165,133,0.35);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.bf-success-btn:hover {
+  box-shadow: 0 8px 30px rgba(91,165,133,0.4);
+  transform: translateY(-1px);
+}
+
+/* ── SPINNER ── */
+.bf-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: bf-spin 0.6s linear infinite;
+}
+@keyframes bf-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .bf-pills {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bf-radios {
+    grid-template-columns: 1fr;
+  }
+  .bf-field-grid {
+    grid-template-columns: 1fr;
+  }
+  .bf-body {
+    padding: 24px 20px 16px;
+  }
+  .bf-steps {
+    padding: 20px 20px 16px;
+  }
+  .bf-footer {
+    padding: 16px 20px 20px;
+  }
+}

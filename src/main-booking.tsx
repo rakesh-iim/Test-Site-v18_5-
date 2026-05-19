@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import ServiceBooking from './components/ServiceBooking'
-import './index.css'
 
 ReactDOM.createRoot(document.getElementById('react-booking-root') as HTMLElement).render(
   <React.StrictMode>

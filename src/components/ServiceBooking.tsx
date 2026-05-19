@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, ChevronRight, ArrowLeft } from 'lucide-react';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { ChevronRight, ArrowLeft, Check } from 'lucide-react';
 
 interface ServiceBookingProps {
   onSuccess?: (data: any) => void;
@@ -17,6 +11,7 @@ interface ServiceBookingProps {
 const CITIES = ["Ahmedabad", "Surat", "Vadodara", "Bangalore", "Pune", "Delhi/NCR"];
 const PROPERTY_TYPES = ["Apartment", "Independent House / Villa", "Under Construction / Empty Shell", "Penthouse / Duplex", "Commercial / Office Space"];
 const TIME_SLOTS = ["10:00 AM – 12:00 PM", "12:00 PM – 02:00 PM", "02:00 PM – 04:00 PM", "04:00 PM – 06:00 PM"];
+const STEPS = ["Location", "Schedule", "Details"];
 
 export default function ServiceBooking({ onSuccess, price = 499, currencySymbol = "₹" }: ServiceBookingProps) {
   const [formData, setFormData] = useState({ city: '', propertyType: '', date: '', timeSlot: '', pincode: '', notes: '', name: '', phone: '', email: '' });
@@ -44,34 +39,45 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
   const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
   const minDate = tomorrow.toISOString().split('T')[0];
 
-  const anim = { initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -16 }, transition: { duration: 0.25 } };
+  const anim = {
+    initial: { opacity: 0, x: 20, filter: 'blur(3px)' },
+    animate: { opacity: 1, x: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, x: -20, filter: 'blur(3px)' },
+    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+  };
 
   /* ─── SUCCESS ─── */
   if (isSuccess) {
     return (
-      <div className="bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.07)] overflow-hidden font-sans border border-gray-100">
-        <div className="px-9 py-12 text-center">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200 }}>
-            <div className="w-[72px] h-[72px] rounded-full bg-gradient-to-br from-[#5ba585] to-[#4a8a6f] flex items-center justify-center mx-auto mb-6 shadow-lg shadow-[#5ba585]/30">
-              <CheckCircle2 size={36} color="#fff" strokeWidth={2} />
+      <div className="bf-card">
+        <div className="bf-success">
+          <div className="bf-success-glow" />
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 180, damping: 14 }}>
+            <div className="bf-success-icon">
+              <Check />
             </div>
           </motion.div>
-          <h3 className="font-serif text-2xl font-bold text-[#1a1a2e] mb-2">Booking Confirmed</h3>
-          <p className="text-sm text-gray-500 leading-relaxed mb-7">
-            Thank you, <b className="text-[#1a1a2e] font-semibold">{formData.name.split(' ')[0]}</b>. Our expert will visit on{' '}
-            <b className="text-[#5ba585] font-semibold">{new Date(formData.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}</b>{' '}
-            between {formData.timeSlot}.
-          </p>
-          {[["Service", "Expert Home Consultation"], ["City", formData.city], ["Property", formData.propertyType], ["Amount Paid", `${currencySymbol}${price}`]].map(([l, v], i) => (
-            <div key={i} className={cn("flex justify-between py-3 text-[13px]", i < 3 ? "border-b border-gray-100" : "")}>
-              <span className="text-gray-500">{l}</span>
-              <span className={cn("font-semibold", l === 'Amount Paid' ? "text-[#5ba585]" : "text-[#1a1a2e]")}>{v}</span>
-            </div>
-          ))}
-          <button onClick={() => { setStep(1); setIsSuccess(false); setFormData({ city: '', propertyType: '', date: '', timeSlot: '', pincode: '', notes: '', name: '', phone: '', email: '' }); }}
-            className="w-full h-[50px] rounded-[14px] bg-gradient-to-br from-[#5ba585] to-[#4a8a6f] text-white text-sm font-bold cursor-pointer mt-7 hover:shadow-lg hover:shadow-[#5ba585]/30 transition-all font-sans">
-            Book Another Consultation
-          </button>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <h3>Booking Confirmed</h3>
+            <p>
+              Thank you, <strong>{formData.name.split(' ')[0]}</strong>. Our expert will visit on{' '}
+              <span className="green">{new Date(formData.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}</span>{' '}
+              between {formData.timeSlot}.
+            </p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="bf-success-details">
+            {[["Service", "Expert Home Consultation", false], ["City", formData.city, false], ["Property", formData.propertyType, false], ["Amount Paid", `${currencySymbol}${price}`, true]].map(([l, v, isGreen], i) => (
+              <div key={i} className="bf-success-row">
+                <span className="label">{l as string}</span>
+                <span className={`value${isGreen ? ' green' : ''}`}>{v as string}</span>
+              </div>
+            ))}
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+            <button className="bf-success-btn" onClick={() => { setStep(1); setIsSuccess(false); setFormData({ city: '', propertyType: '', date: '', timeSlot: '', pincode: '', notes: '', name: '', phone: '', email: '' }); }}>
+              Book Another Consultation
+            </button>
+          </motion.div>
         </div>
       </div>
     );
@@ -79,32 +85,21 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
 
   /* ─── MAIN FORM ─── */
   return (
-    <div className="bg-white rounded-[20px] shadow-[0_8px_40px_rgba(0,0,0,0.07)] overflow-hidden font-sans border border-gray-100 flex flex-col h-full">
+    <div className="bf-card">
       {/* ── STEP BAR ── */}
-      <div className="px-8 pt-6 pb-5 border-b border-gray-100 bg-gray-50/50">
-        <div className="flex items-center justify-between max-w-[300px] mx-auto">
-          {["Location", "Schedule", "Details"].map((label, i) => (
+      <div className="bf-steps">
+        <div className="bf-steps-inner">
+          {STEPS.map((label, i) => (
             <React.Fragment key={i}>
-              <div className="flex flex-col items-center gap-1.5 relative z-10 bg-gray-50/50 px-2">
-                <div className={cn(
-                  "w-8 h-8 rounded-full text-[13px] font-bold flex items-center justify-center transition-all duration-300 shadow-sm",
-                  step > i + 1 ? "bg-[#5ba585] text-white shadow-[#5ba585]/30" : 
-                  step === i + 1 ? "bg-[#5ba585] text-white ring-4 ring-[#5ba585]/20 shadow-[#5ba585]/30" : 
-                  "bg-gray-200 text-gray-400"
-                )}>
-                  {step > i + 1 ? <CheckCircle2 size={16} strokeWidth={3} /> : i + 1}
+              <div className="bf-step">
+                <div className={`bf-step-num${step > i + 1 ? ' done' : step === i + 1 ? ' active' : ''}`}>
+                  {step > i + 1 ? <Check /> : i + 1}
                 </div>
-                <span className={cn(
-                  "text-[10px] font-bold tracking-[0.08em] uppercase transition-colors duration-300",
-                  step >= i + 1 ? "text-[#1a1a2e]" : "text-gray-400"
-                )}>{label}</span>
+                <span className={`bf-step-label${step >= i + 1 ? ' active' : ''}`}>{label}</span>
               </div>
               {i < 2 && (
-                <div className="flex-1 h-0.5 mx-2 bg-gray-200 relative -top-3">
-                  <div 
-                    className="absolute inset-0 bg-[#5ba585] transition-all duration-500 ease-in-out" 
-                    style={{ width: step > i + 1 ? '100%' : '0%' }}
-                  />
+                <div className="bf-step-line">
+                  <div className="bf-step-line-fill" style={{ width: step > i + 1 ? '100%' : '0%' }} />
                 </div>
               )}
             </React.Fragment>
@@ -113,23 +108,42 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
       </div>
 
       {/* ── FORM BODY ── */}
-      <form onSubmit={submit} className="flex flex-col flex-1">
-        <div className="px-8 pt-7 pb-5 min-h-[360px]">
+      <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        <div className="bf-body">
           <AnimatePresence mode="wait">
             {/* ═══ STEP 1 ═══ */}
             {step === 1 && (
               <motion.div key="s1" {...anim}>
-                <Label text="Select your city" />
-                <div className="flex flex-wrap gap-2.5 mb-8">
-                  {CITIES.map(city => (
-                    <Pill key={city} label={city} selected={formData.city === city} onClick={() => set('city', city)} />
+                <div className="bf-label">Select your city</div>
+                <div className="bf-pills">
+                  {CITIES.map((city, idx) => (
+                    <motion.button
+                      key={city} type="button"
+                      className={`bf-pill${formData.city === city ? ' selected' : ''}`}
+                      onClick={() => set('city', city)}
+                      initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.04, duration: 0.3 }}
+                      whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+                    >
+                      {city}
+                    </motion.button>
                   ))}
                 </div>
 
-                <Label text="Property type" />
-                <div className="flex flex-col gap-2.5">
-                  {PROPERTY_TYPES.map(type => (
-                    <RadioRow key={type} label={type} selected={formData.propertyType === type} onClick={() => set('propertyType', type)} />
+                <div className="bf-label">Property type</div>
+                <div className="bf-radios">
+                  {PROPERTY_TYPES.map((type, idx) => (
+                    <motion.button
+                      key={type} type="button"
+                      className={`bf-radio${formData.propertyType === type ? ' selected' : ''}`}
+                      onClick={() => set('propertyType', type)}
+                      initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.04, duration: 0.3 }}
+                      whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}
+                    >
+                      <div className="bf-radio-dot" />
+                      {type}
+                    </motion.button>
                   ))}
                 </div>
               </motion.div>
@@ -138,14 +152,23 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
             {/* ═══ STEP 2 ═══ */}
             {step === 2 && (
               <motion.div key="s2" {...anim}>
-                <Label text="Preferred date" />
+                <div className="bf-label">Preferred date</div>
                 <input type="date" name="date" min={minDate} value={formData.date} onChange={onChange}
-                  className="w-full px-4 py-3.5 rounded-[14px] text-sm font-medium border-2 border-gray-100 bg-gray-50 text-[#1a1a2e] outline-none transition-all duration-200 focus:border-[#5ba585] focus:bg-white focus:ring-4 focus:ring-[#5ba585]/10 mb-8" />
+                  className="bf-input mb" />
 
-                <Label text="Time slot" />
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {TIME_SLOTS.map(slot => (
-                    <TimeCard key={slot} slot={slot} selected={formData.timeSlot === slot} onClick={() => set('timeSlot', slot)} />
+                <div className="bf-label">Time slot</div>
+                <div className="bf-times">
+                  {TIME_SLOTS.map((slot, idx) => (
+                    <motion.button
+                      key={slot} type="button"
+                      className={`bf-time${formData.timeSlot === slot ? ' selected' : ''}`}
+                      onClick={() => set('timeSlot', slot)}
+                      initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.06, duration: 0.3 }}
+                      whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                    >
+                      {slot}
+                    </motion.button>
                   ))}
                 </div>
               </motion.div>
@@ -154,136 +177,65 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
             {/* ═══ STEP 3 ═══ */}
             {step === 3 && (
               <motion.div key="s3" {...anim}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <Field label="Full Name" name="name" placeholder="Your name" value={formData.name} onChange={onChange} />
-                  <Field label="Phone" name="phone" type="tel" placeholder="98765 43210" value={formData.phone} onChange={onChange} />
+                <div className="bf-field-grid">
+                  <div>
+                    <div className="bf-field-label">Full Name</div>
+                    <input type="text" name="name" placeholder="Your name" value={formData.name} onChange={onChange} className="bf-input" />
+                  </div>
+                  <div>
+                    <div className="bf-field-label">Phone</div>
+                    <input type="tel" name="phone" placeholder="98765 43210" value={formData.phone} onChange={onChange} className="bf-input" />
+                  </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                  <Field label="Email" name="email" type="email" placeholder="you@email.com" value={formData.email} onChange={onChange} optional />
-                  <Field label="Pincode" name="pincode" placeholder="380015" value={formData.pincode} onChange={onChange} />
+                <div className="bf-field-grid">
+                  <div>
+                    <div className="bf-field-label">Email <span>(optional)</span></div>
+                    <input type="email" name="email" placeholder="you@email.com" value={formData.email} onChange={onChange} className="bf-input" />
+                  </div>
+                  <div>
+                    <div className="bf-field-label">Pincode</div>
+                    <input type="text" name="pincode" placeholder="380015" value={formData.pincode} onChange={onChange} className="bf-input" />
+                  </div>
                 </div>
-                <Field label="Address / Notes" name="notes" placeholder="Your address or special requirements…" value={formData.notes} onChange={onChange} optional textarea />
+                <div>
+                  <div className="bf-field-label">Address / Notes <span>(optional)</span></div>
+                  <textarea name="notes" placeholder="Your address or special requirements…" value={formData.notes} onChange={onChange} rows={3}
+                    className="bf-input bf-textarea" />
+                </div>
 
-                {/* Summary Strip */}
-                <div className="flex flex-wrap gap-x-4 gap-y-1.5 px-4 py-3 rounded-xl bg-[#e8f5ee]/70 border border-[#5ba585]/20 mt-6 text-xs text-gray-700 font-medium">
-                  <span className="flex items-center gap-1.5"><span className="text-base">📍</span> {formData.city}</span>
-                  <span className="flex items-center gap-1.5"><span className="text-base">🏠</span> {formData.propertyType.split('/')[0].trim()}</span>
-                  <span className="flex items-center gap-1.5"><span className="text-base">📅</span> {formData.date ? new Date(formData.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}</span>
-                  <span className="flex items-center gap-1.5"><span className="text-base">🕐</span> {formData.timeSlot ? formData.timeSlot.split('–')[0].trim() : '—'}</span>
-                </div>
+                <motion.div className="bf-summary" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                  <div>City: <strong>{formData.city}</strong></div>
+                  <div>Type: <strong>{formData.propertyType.split('/')[0].trim()}</strong></div>
+                  <div>Date: <strong>{formData.date ? new Date(formData.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) : '—'}</strong></div>
+                  <div>Time: <strong>{formData.timeSlot ? formData.timeSlot.split('–')[0].trim() : '—'}</strong></div>
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
         {/* ── FOOTER ── */}
-        <div className="px-8 py-5 flex items-center gap-3 border-t border-gray-100 bg-gray-50/50 mt-auto">
+        <div className="bf-footer">
           {step > 1 && (
-            <button type="button" onClick={() => setStep(step - 1)} 
-              className="w-12 h-12 rounded-full border-2 border-gray-200 bg-white flex items-center justify-center cursor-pointer text-gray-500 shrink-0 hover:border-gray-300 hover:text-gray-700 hover:bg-gray-50 transition-all duration-200 shadow-sm hover:shadow">
-              <ArrowLeft size={18} strokeWidth={2.5} />
-            </button>
+            <motion.button type="button" onClick={() => setStep(step - 1)} className="bf-back"
+              initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+              whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.92 }}>
+              <ArrowLeft />
+            </motion.button>
           )}
-          <button type="submit" disabled={!valid || isSubmitting} 
-            className={cn(
-              "flex-1 h-12 rounded-[14px] text-sm font-bold flex items-center justify-center gap-2 transition-all duration-300",
-              valid && !isSubmitting 
-                ? "cursor-pointer bg-gradient-to-br from-[#5ba585] to-[#4a8a6f] text-white shadow-[0_6px_20px_rgba(91,165,133,0.3)] hover:shadow-[0_8px_25px_rgba(91,165,133,0.4)] hover:-translate-y-0.5" 
-                : "cursor-not-allowed bg-gray-200 text-gray-400"
-            )}>
+          <motion.button type="submit" disabled={!valid || isSubmitting}
+            className={`bf-submit ${valid && !isSubmitting ? 'enabled' : 'disabled'}`}
+            whileHover={valid && !isSubmitting ? { scale: 1.015, y: -1 } : {}}
+            whileTap={valid && !isSubmitting ? { scale: 0.985 } : {}}>
             {isSubmitting
-              ? <Spinner />
+              ? <div className="bf-spinner" />
               : step === 3
-                ? <>Book & Pay {currencySymbol}{price} <ChevronRight size={16} strokeWidth={2.5} /></>
-                : <>Continue <ChevronRight size={16} strokeWidth={2.5} /></>
+                ? <>Book & Pay {currencySymbol}{price} <ChevronRight /></>
+                : <>Continue <ChevronRight /></>
             }
-          </button>
+          </motion.button>
         </div>
       </form>
     </div>
   );
-}
-
-/* ════════════════════════════════════════════════
-   SUB-COMPONENTS
-   ════════════════════════════════════════════════ */
-
-function Label({ text }: { text: string }) {
-  return <div className="text-[11px] font-extrabold uppercase tracking-[0.1em] text-gray-400 mb-3 font-sans">{text}</div>;
-}
-
-function Pill({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
-  return (
-    <button type="button" onClick={onClick} 
-      className={cn(
-        "px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all duration-200 border-2 cursor-pointer font-sans",
-        selected 
-          ? "border-[#5ba585] bg-[#5ba585] text-white shadow-[0_4px_14px_rgba(91,165,133,0.3)]" 
-          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-800"
-      )}>
-      {label}
-    </button>
-  );
-}
-
-function RadioRow({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) {
-  return (
-    <button type="button" onClick={onClick} 
-      className={cn(
-        "flex items-center gap-3.5 px-4 py-3.5 rounded-[14px] text-sm font-medium text-left transition-all duration-200 w-full border-2 cursor-pointer font-sans group",
-        selected 
-          ? "border-[#5ba585] bg-[#e8f5ee]/70 text-[#1a1a2e]" 
-          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200 hover:bg-gray-100"
-      )}>
-      <div className={cn(
-        "w-[22px] h-[22px] rounded-full shrink-0 flex items-center justify-center transition-all duration-200",
-        selected 
-          ? "border-2 border-[#5ba585] bg-[#5ba585]" 
-          : "border-2 border-gray-300 group-hover:border-gray-400 bg-white"
-      )}>
-        {selected && <CheckCircle2 size={14} color="#fff" strokeWidth={3} />}
-      </div>
-      {label}
-    </button>
-  );
-}
-
-function TimeCard({ slot, selected, onClick }: { slot: string; selected: boolean; onClick: () => void }) {
-  return (
-    <button type="button" onClick={onClick} 
-      className={cn(
-        "px-3 py-4 rounded-[14px] text-[13px] font-semibold text-center transition-all duration-200 w-full border-2 cursor-pointer font-sans",
-        selected 
-          ? "border-[#5ba585] bg-[#5ba585] text-white shadow-[0_4px_14px_rgba(91,165,133,0.3)]" 
-          : "border-gray-100 bg-gray-50 text-gray-600 hover:border-gray-200 hover:bg-gray-100 hover:text-gray-800"
-      )}>
-      {slot}
-    </button>
-  );
-}
-
-function Field({ label, name, type = 'text', placeholder, value, onChange, optional, textarea }: {
-  label: string; name: string; type?: string; placeholder: string; value: string;
-  onChange: (e: any) => void; optional?: boolean; textarea?: boolean;
-}) {
-  const baseClasses = "w-full px-4 py-3.5 rounded-[14px] text-sm font-medium border-2 border-gray-100 bg-gray-50 text-[#1a1a2e] outline-none transition-all duration-200 focus:border-[#5ba585] focus:bg-white focus:ring-4 focus:ring-[#5ba585]/10 font-sans placeholder:text-gray-400";
-  
-  return (
-    <div className={textarea ? "" : "mb-0"}>
-      <div className="text-[10px] font-extrabold uppercase tracking-[0.1em] text-gray-400 mb-2 font-sans">
-        {label}{optional && <span className="font-normal text-gray-300"> (optional)</span>}
-      </div>
-      {textarea ? (
-        <textarea name={name} placeholder={placeholder} value={value} onChange={onChange} rows={3}
-          className={cn(baseClasses, "resize-none")} />
-      ) : (
-        <input type={type} name={name} placeholder={placeholder} value={value} onChange={onChange}
-          className={baseClasses} />
-      )}
-    </div>
-  );
-}
-
-function Spinner() {
-  return <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />;
 }

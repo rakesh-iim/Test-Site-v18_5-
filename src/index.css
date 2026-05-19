@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@source "../src";
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+}
 
 /* 
   Since this is a hybrid project, we only want Tailwind on the booking page. 
