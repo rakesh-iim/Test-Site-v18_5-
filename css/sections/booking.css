@@ -16,12 +16,12 @@
 }
 
 .booking-layout {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 40px 40px 80px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 80px;
   align-items: start;
   position: relative;
   z-index: 1;
@@ -146,6 +146,41 @@
   color: #1a1a2e;
   margin-bottom: 12px;
   line-height: 1.2;
+}
+
+.animated-text-green {
+  background: linear-gradient(
+    to right,
+    #5ba585 0%,
+    #85d1af 50%,
+    #5ba585 100%
+  );
+  background-size: 200% auto;
+  color: #5ba585;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: 
+    green-text-slide-up 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards,
+    green-shine 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+@keyframes green-text-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes green-shine {
+  to {
+    background-position: 200% center;
+  }
 }
 
 .booking-price {

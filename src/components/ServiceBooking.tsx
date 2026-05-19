@@ -230,8 +230,8 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
             {isSubmitting
               ? <div className="bf-spinner" />
               : step === 3
-                ? <>Book Consultation <ChevronRight /></>
-                : <>Continue <ChevronRight /></>
+                ? <><span className="bf-submit-text">Book Consultation</span> <ChevronRight /></>
+                : <><span className="bf-submit-text">Continue</span> <ChevronRight /></>
             }
           </motion.button>
         </div>
