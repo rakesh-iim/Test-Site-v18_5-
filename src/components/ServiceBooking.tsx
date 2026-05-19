@@ -66,10 +66,10 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
             </p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="bf-success-details">
-            {[["Service", "Expert Home Consultation", false], ["City", formData.city, false], ["Property", formData.propertyType, false], ["Amount Paid", `${currencySymbol}${price}`, true]].map(([l, v, isGreen], i) => (
+            {[["Service", "Expert Home Consultation"], ["City", formData.city], ["Property", formData.propertyType]].map(([l, v], i) => (
               <div key={i} className="bf-success-row">
                 <span className="label">{l as string}</span>
-                <span className={`value${isGreen ? ' green' : ''}`}>{v as string}</span>
+                <span className="value">{v as string}</span>
               </div>
             ))}
           </motion.div>
@@ -230,7 +230,7 @@ export default function ServiceBooking({ onSuccess, price = 499, currencySymbol 
             {isSubmitting
               ? <div className="bf-spinner" />
               : step === 3
-                ? <>Book & Pay {currencySymbol}{price} <ChevronRight /></>
+                ? <>Book Consultation <ChevronRight /></>
                 : <>Continue <ChevronRight /></>
             }
           </motion.button>
